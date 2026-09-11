@@ -16,8 +16,8 @@
     <div class="project-title"><span class="save-dot"></span><input id="projectTitle" value="The Last Lighthouse" aria-label="Project title"><span class="saved-label">Saved</span></div>
     <div class="top-actions">
       <button class="icon-button" id="themeButton" aria-label="Change color theme" title="Color theme">◐</button>
+      <button class="button secondary" id="topImportButton">Import</button>
       <button class="button secondary" id="exportButton">Export</button>
-      <button class="button primary" id="newSceneTop">＋ New scene</button>
     </div>
   </header>
 
@@ -34,14 +34,13 @@
     <aside class="outline-panel">
       <div class="panel-heading">
         <div><p class="eyebrow">MANUSCRIPT</p><h2>Outline</h2></div>
-        <button class="round-button" id="addAct" title="Add act">＋</button>
+        <button class="button outline-add" id="outlineAdd" title="Add to outline">＋ Add</button>
       </div>
       <div class="outline-tools">
         <button class="filter-button" id="collapseAll">⇅ <span>Collapse all</span></button>
         <button class="filter-button" id="tagFilter">◉ <span>Filter tags</span></button>
       </div>
       <div id="outlineTree" class="outline-tree"></div>
-      <button class="add-section" id="addChapter">＋ Add chapter</button>
       <div class="progress-card">
         <div class="progress-copy"><span>Draft progress</span><strong id="progressPercent">34%</strong></div>
         <div class="progress-track"><i id="progressBar"></i></div>
@@ -91,13 +90,14 @@
     </aside>
   </main>
 
-  <dialog id="exportDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">YOUR MANUSCRIPT</p><h2>Export project</h2><p>Download a clean copy of your current scene.</p><div class="export-options"><button data-export="txt"><strong>TXT</strong><span>Plain manuscript</span></button><button data-export="html"><strong>HTML</strong><span>Styled document</span></button></div></dialog>
+  <dialog id="exportDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">SHARE & BACKUP</p><h2>Export</h2><p>Share the current scene or back up the complete editable project.</p><div class="export-options"><button data-export="txt"><strong>TXT</strong><span>Plain scene</span></button><button data-export="html"><strong>HTML</strong><span>Styled scene</span></button><button id="backupProject"><strong>PROJECT</strong><span>Complete JSON backup</span></button></div></dialog>
   <dialog id="tagDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">STORY ELEMENT</p><h2 id="tagDialogTitle">Add an element</h2><label class="dialog-field">Name<input id="tagName" placeholder="e.g. The silver key"></label><label class="dialog-field">Type<select id="tagType"><option>Character</option><option>Place</option><option>Object</option><option>Music / sound</option></select></label><label class="tag-color-label">Tag color <input id="tagColor" type="color" value="#b35f67"></label><button class="button primary wide" id="confirmTag">Add element</button></dialog>
   <dialog id="viewDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">READING COMFORT</p><h2>Page appearance</h2><div class="settings-grid"><label>Typeface<select id="fontChoice"><option value="literary">Literary serif</option><option value="sans">Clean sans</option><option value="mono">Monospace</option><option value="dyslexic">Accessible sans</option></select></label><label>Page width<select id="widthChoice"><option value="narrow">Narrow</option><option value="medium" selected>Medium</option><option value="wide">Wide</option></select></label><label>Text size<input id="fontSize" type="range" min="14" max="26" value="18"><output id="fontSizeValue">18px</output></label><label>Line spacing<input id="lineHeight" type="range" min="13" max="24" value="18"><output id="lineHeightValue">1.8</output></label></div><label class="toggle-row"><input id="typewriterToggle" type="checkbox"> Keep the current paragraph centered (typewriter mode)</label><label class="toggle-row"><input id="paragraphFocus" type="checkbox"> Dim paragraphs outside the pointer</label><button class="button secondary wide" id="resetView">Reset appearance</button></dialog>
   <dialog id="filterDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">OUTLINE FILTER</p><h2>Show scenes tagged with</h2><div id="filterOptions" class="filter-options"></div><button class="button secondary wide" id="clearFilter">Show every scene</button></dialog>
   <dialog id="sceneDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">SCENE ACTIONS</p><h2>Manage scene</h2><div class="scene-actions"><button id="duplicateScene">Duplicate scene</button><button id="deleteScene" class="danger">Delete scene</button></div></dialog>
   <dialog id="projectsDialog" class="projects-dialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">LIBRARY</p><h2>Your projects</h2><div id="projectList" class="project-list"></div><div class="project-create"><input id="newProjectName" placeholder="New project title"><button class="button primary" id="createProject">Create</button></div><button class="button secondary wide" id="importProject">Import project file</button><input id="projectFile" type="file" accept="application/json" hidden></dialog>
   <dialog id="renameDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">OUTLINE</p><h2 id="renameTitle">Rename</h2><label class="dialog-field">Name<input id="renameInput"></label><button class="button primary wide" id="confirmRename">Save name</button></dialog>
+  <dialog id="outlineAddDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">MANUSCRIPT</p><h2>Add to outline</h2><p id="outlineAddHint">Choose what to add near your current scene.</p><div class="add-choice-grid"><button id="addActChoice"><strong>Act</strong><span>A major story movement</span></button><button id="addChapterChoice"><strong>Chapter</strong><span>Inside the current act</span></button><button id="addSceneChoice"><strong>Scene</strong><span>Inside the current chapter</span></button></div></dialog>
   <div class="toast" id="toast">Saved</div>
   <script type="module" src="app.js"></script>
 </body>

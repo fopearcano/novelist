@@ -30,6 +30,7 @@ project between browsers.
 
 - Nested, collapsible acts, chapters, and scenes
 - Fully editable acts, chapters, scenes, and color-coded characters, places, objects, and music/sound tags
+- One outline Add menu for acts, chapters, and scenes, plus visible scene rename/delete controls
 - Multi-project library with create, switch, delete, JSON backup, and import
 - Rich-text formatting, find, undo/redo, fullscreen, focus, dark, and extra-dark midnight modes
 - Adjustable typeface, page width, text size, line spacing, typewriter scrolling, and paragraph focus
