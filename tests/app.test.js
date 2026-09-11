@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { countWords, projectProgress, modes } from '../app.js';
+import { allScenes, countWords, createBlankProject, initialProject, migrateProject, modes, projectProgress } from '../app.js';
 
 test('counts manuscript words including contractions', () => {
   assert.equal(countWords("Mara's light can't fade."), 4);
@@ -16,10 +16,16 @@ test('offers all three writing modes', () => {
   assert.deepEqual(Object.keys(modes), ['novel', 'screenplay', 'graphic']);
 });
 
-import { allScenes, initialProject, migrateProject } from '../app.js';
-
 test('flattens the nested manuscript hierarchy', () => {
   assert.equal(allScenes(initialProject).length, 7);
+});
+
+test('creates an independent editable project with one scene', () => {
+  const project = createBlankProject('Second Book', 'second-book');
+  assert.equal(project.title, 'Second Book');
+  assert.equal(project.id, 'second-book');
+  assert.equal(allScenes(project).length, 1);
+  assert.equal(project.activeScene, 'second-book-scene-1');
 });
 
 test('migrates prototype saves and supplies durable scene metadata', () => {
