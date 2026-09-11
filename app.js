@@ -9,7 +9,7 @@ const scene = (id, title, words, color, tags = []) => ({ id, title, words, color
 
 export const initialProject = {
   id: 'last-lighthouse', title: 'The Last Lighthouse', mode: 'novel', theme: 'light', activeScene: 'signal', target: 72000,
-  view: { font: 'literary', width: 'medium', size: 18, lineHeight: 1.8, typewriter: false, paragraphFocus: false },
+  view: { preset: 'draft', font: 'literary', width: 'medium', size: 18, lineHeight: 1.8, typewriter: false, paragraphFocus: false },
   tags: [
     { id: 'mara', name: 'Mara Vale', type: 'Character', color: '#b35f67', icon: 'M' },
     { id: 'lighthouse', name: 'Northpoint Lighthouse', type: 'Place', color: '#6388ad', icon: '⌂' },
@@ -123,7 +123,8 @@ if (typeof document !== 'undefined') {
   function applyView() {
     const fonts = { literary: "'Literata',serif", sans: "'DM Sans',sans-serif", mono: "'DM Mono',monospace", dyslexic: "Verdana,sans-serif" };
     document.documentElement.style.setProperty('--editor-font', fonts[project.view.font]); document.documentElement.style.setProperty('--editor-size', `${project.view.size}px`); document.documentElement.style.setProperty('--editor-leading', project.view.lineHeight);
-    editor.classList.toggle('typewriter', project.view.typewriter); editor.classList.toggle('paragraph-focus', project.view.paragraphFocus); editor.dataset.width = project.view.width;
+    document.body.classList.remove('view-draft', 'view-book', 'view-typewriter', 'view-proof'); document.body.classList.add(`view-${project.view.preset}`);
+    editor.classList.toggle('typewriter', project.view.typewriter || project.view.preset === 'typewriter'); editor.classList.toggle('paragraph-focus', project.view.paragraphFocus); editor.dataset.width = project.view.width; $('#viewPreset').value = project.view.preset;
     $('#fontChoice').value = project.view.font; $('#widthChoice').value = project.view.width; $('#fontSize').value = project.view.size; $('#fontSizeValue').textContent = `${project.view.size}px`; $('#lineHeight').value = Math.round(project.view.lineHeight * 10); $('#lineHeightValue').textContent = project.view.lineHeight; $('#typewriterToggle').checked = project.view.typewriter; $('#paragraphFocus').checked = project.view.paragraphFocus;
   }
   function applyTheme(theme) { project.theme = theme; document.body.classList.remove('dark', 'midnight'); if (theme !== 'light') document.body.classList.add(theme); $('#themeButton').textContent = theme === 'light' ? '◐' : theme === 'dark' ? '●' : '◑'; persist(); }
@@ -156,7 +157,8 @@ if (typeof document !== 'undefined') {
   $('#projectsButton').addEventListener('click', () => { captureScene(); persist(); renderProjects(); $('#projectsDialog').showModal(); }); $('#createProject').addEventListener('click', createProject); $('#newProjectName').addEventListener('keydown', event => { if (event.key === 'Enter') createProject(); }); $('#importProject').addEventListener('click', () => $('#projectFile').click()); $('#projectFile').addEventListener('change', event => { if (event.target.files[0]) importProject(event.target.files[0]); event.target.value = ''; });
   ['sceneSummary', 'statusSelect', 'povSelect', 'tension'].forEach(id => $(`#${id}`).addEventListener('input', event => { if (id === 'tension') $('#tensionValue').textContent = event.target.value; scheduleSave(); }));
   $('#modeSelect').addEventListener('change', event => { captureScene(); applyMode(event.target.value); toast(`${modes[event.target.value].label} format`); });
-  $$('.view-actions button').forEach(button => button.addEventListener('click', () => { $$('.view-actions button').forEach(item => item.classList.remove('active')); button.classList.add('active'); document.body.classList.toggle('focus-mode', button.dataset.layout === 'focus'); }));
+  const setFocusMode = enabled => { document.body.classList.toggle('focus-mode', enabled); $('#focusModeButton').classList.toggle('active', enabled); if (enabled) { editor.focus(); toast('Focus mode · Esc to exit'); } };
+  $('#focusModeButton').addEventListener('click', () => setFocusMode(!document.body.classList.contains('focus-mode'))); $('#exitFocus').addEventListener('click', () => setFocusMode(false));
   $$('.format-toolbar [data-command]').forEach(button => button.addEventListener('mousedown', event => { event.preventDefault(); document.execCommand(button.dataset.command, false, button.dataset.value || null); editor.focus(); }));
   $('#textStyle').addEventListener('change', event => applyTextStyle(event.target.value));
   $('#themeButton').addEventListener('click', () => { const themes = ['light', 'dark', 'midnight']; applyTheme(themes[(themes.indexOf(project.theme) + 1) % themes.length]); toast(`${project.theme} theme`); });
@@ -176,6 +178,7 @@ if (typeof document !== 'undefined') {
   $('#confirmTag').addEventListener('click', () => { const name = $('#tagName').value.trim(); if (!name) { $('#tagName').focus(); return; } const type = $('#tagType').value; let tag = project.tags.find(item => item.id === editingTagId); if (tag) Object.assign(tag, { name, type, color: $('#tagColor').value, icon: type === 'Music / sound' ? '♫' : tag.icon }); else { tag = { id: `tag-${Date.now()}`, name, type, color: $('#tagColor').value, icon: type === 'Music / sound' ? '♫' : '◆' }; project.tags.push(tag); currentScene().tags.push(tag.id); } editingTagId = null; $('#tagDialog').close(); renderTags(); renderOutline(); persist(true); });
   $$('#sceneColors button').forEach(button => button.addEventListener('click', () => { currentScene().color = button.dataset.color; $$('#sceneColors button').forEach(item => item.classList.toggle('selected', item === button)); renderOutline(); persist(); }));
   $('#viewSettings').addEventListener('click', () => $('#viewDialog').showModal());
+  $('#viewPreset').addEventListener('change', event => { project.view.preset = event.target.value; applyView(); persist(); toast(`${event.target.options[event.target.selectedIndex].text} view`); });
   $('#fontChoice').addEventListener('change', event => { project.view.font = event.target.value; applyView(); persist(); }); $('#widthChoice').addEventListener('change', event => { project.view.width = event.target.value; applyView(); persist(); });
   $('#fontSize').addEventListener('input', event => { project.view.size = Number(event.target.value); applyView(); persist(); }); $('#lineHeight').addEventListener('input', event => { project.view.lineHeight = Number(event.target.value) / 10; applyView(); persist(); });
   $('#typewriterToggle').addEventListener('change', event => { project.view.typewriter = event.target.checked; applyView(); persist(); }); $('#paragraphFocus').addEventListener('change', event => { project.view.paragraphFocus = event.target.checked; applyView(); persist(); });
@@ -184,6 +187,6 @@ if (typeof document !== 'undefined') {
   $('#fullscreenButton').addEventListener('click', () => { if (document.fullscreenElement) document.exitFullscreen(); else $('.editor-panel').requestFullscreen(); });
   $('#confirmRename').addEventListener('click', () => { const name = $('#renameInput').value.trim(); if (!renameTarget || !name) return; renameTarget.title = name; renameTarget = null; $('#renameDialog').close(); renderOutline(); persist(); }); $('#renameInput').addEventListener('keydown', event => { if (event.key === 'Enter') $('#confirmRename').click(); });
   $$('dialog .dialog-close').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
-  document.addEventListener('keydown', event => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') { event.preventDefault(); captureScene(); persist(true); } });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && document.body.classList.contains('focus-mode')) setFocusMode(false); if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') { event.preventDefault(); captureScene(); persist(true); } });
   window.addEventListener('beforeunload', captureScene);
 }

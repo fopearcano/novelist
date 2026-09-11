@@ -26,6 +26,7 @@ test('creates an independent editable project with one scene', () => {
   assert.equal(project.id, 'second-book');
   assert.equal(allScenes(project).length, 1);
   assert.equal(project.activeScene, 'second-book-scene-1');
+  assert.equal(project.view.preset, 'draft');
 });
 
 test('migrates prototype saves and supplies durable scene metadata', () => {
@@ -37,4 +38,5 @@ test('migrates prototype saves and supplies durable scene metadata', () => {
   assert.equal(arrival.content, '<p>Legacy prose</p>');
   assert.deepEqual(arrival.tags, []);
   assert.equal(arrival.status, 'Draft');
+  assert.equal(migrated.view.preset, 'draft');
 });

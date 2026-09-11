@@ -34,6 +34,8 @@ project between browsers.
 - Multi-project library with create, switch, delete, JSON backup, and import
 - Rich-text formatting, find, undo/redo, fullscreen, focus, dark, and extra-dark midnight modes
 - Adjustable typeface, page width, text size, line spacing, typewriter scrolling, and paragraph focus
+- Draft, book-page, typewriter, and proofreading writing-window presets
+- True distraction-free focus mode that leaves only the manuscript visible
 - Dropdown-selected Novel, Screenplay, and Graphic Novel formats with distinct editing syntax and styled exports
 - Persistent scene tags and metadata, filtering, tension, POV, draft progress, duplicate/delete, and TXT/HTML export
 

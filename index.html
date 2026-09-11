@@ -25,7 +25,7 @@
     <label class="mode-picker"><span>FORMAT</span><select id="modeSelect" aria-label="Writing format"><option value="novel">¶ Novel</option><option value="screenplay">▶ Screenplay</option><option value="graphic">▧ Graphic novel</option></select><small id="modeHint">Prose manuscript</small></label>
     <div class="view-actions">
       <button class="icon-button active" data-layout="editor" aria-label="Editor layout">▤</button>
-      <button class="icon-button" data-layout="focus" aria-label="Focus layout">□</button>
+      <button class="icon-button" id="focusModeButton" data-layout="focus" aria-label="Enter distraction-free focus mode" title="Focus mode">◎</button>
       <button class="icon-button" id="detailsToggle" aria-label="Toggle scene details" title="Scene details">◫</button>
     </div>
   </nav>
@@ -64,7 +64,7 @@
         <span class="divider"></span>
         <button data-command="undo" title="Undo">↶</button><button data-command="redo" title="Redo">↷</button><button id="findButton" title="Find in scene">⌕</button>
         <span class="toolbar-spacer"></span>
-        <button id="viewSettings" title="View settings">Aa</button><button id="fullscreenButton" title="Fullscreen editor">⛶</button>
+        <label class="view-preset-label">VIEW <select id="viewPreset" aria-label="Writing window style"><option value="draft">Draft</option><option value="book">Book page</option><option value="typewriter">Typewriter</option><option value="proof">Proofreading</option></select></label><button id="viewSettings" title="View settings">Aa</button><button id="fullscreenButton" title="Fullscreen editor">⛶</button>
       </div>
       <div class="editor-wrap">
         <article id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Scene editor"></article>
@@ -89,6 +89,7 @@
       <div class="color-dots" id="sceneColors"><button class="selected" data-color="#db6b4f" style="--dot:#db6b4f"></button><button data-color="#e3ae47" style="--dot:#e3ae47"></button><button data-color="#6d9c7c" style="--dot:#6d9c7c"></button><button data-color="#6388ad" style="--dot:#6388ad"></button><button data-color="#9274ad" style="--dot:#9274ad"></button></div>
     </aside>
   </main>
+  <button id="exitFocus" class="exit-focus" aria-label="Exit focus mode">Exit focus <kbd>Esc</kbd></button>
 
   <dialog id="exportDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">SHARE & BACKUP</p><h2>Export</h2><p>Share the current scene or back up the complete editable project.</p><div class="export-options"><button data-export="txt"><strong>TXT</strong><span>Plain scene</span></button><button data-export="html"><strong>HTML</strong><span>Styled scene</span></button><button id="backupProject"><strong>PROJECT</strong><span>Complete JSON backup</span></button></div></dialog>
   <dialog id="tagDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">STORY ELEMENT</p><h2 id="tagDialogTitle">Add an element</h2><label class="dialog-field">Name<input id="tagName" placeholder="e.g. The silver key"></label><label class="dialog-field">Type<select id="tagType"><option>Character</option><option>Place</option><option>Object</option><option>Music / sound</option></select></label><label class="tag-color-label">Tag color <input id="tagColor" type="color" value="#b35f67"></label><button class="button primary wide" id="confirmTag">Add element</button></dialog>
