@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f1ea" />
+  <title>Novelist — Stories, structured</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" aria-label="Novelist home"><span class="brand-mark">N</span><span>novelist</span></button>
+    <div class="project-title"><span class="save-dot"></span><input id="projectTitle" value="The Last Lighthouse" aria-label="Project title"><span class="saved-label">Saved</span></div>
+    <div class="top-actions">
+      <button class="icon-button" id="themeButton" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+      <button class="button secondary" id="exportButton">Export</button>
+      <button class="button primary" id="newSceneTop">＋ New scene</button>
+    </div>
+  </header>
+
+  <nav class="modebar" aria-label="Writing mode">
+    <div class="mode-tabs" role="tablist">
+      <button class="mode-tab active" data-mode="novel" role="tab"><span>¶</span> Novel</button>
+      <button class="mode-tab" data-mode="screenplay" role="tab"><span>▶</span> Screenplay</button>
+      <button class="mode-tab" data-mode="graphic" role="tab"><span>▧</span> Graphic novel</button>
+    </div>
+    <div class="view-actions">
+      <button class="icon-button active" data-layout="editor" aria-label="Editor layout">▤</button>
+      <button class="icon-button" data-layout="focus" aria-label="Focus layout">□</button>
+    </div>
+  </nav>
+
+  <main class="workspace">
+    <aside class="outline-panel">
+      <div class="panel-heading">
+        <div><p class="eyebrow">MANUSCRIPT</p><h2>Outline</h2></div>
+        <button class="round-button" id="addAct" title="Add act">＋</button>
+      </div>
+      <div class="outline-tools">
+        <button class="filter-button" id="collapseAll">⇅ <span>Collapse all</span></button>
+        <button class="filter-button" id="tagFilter">◉ <span>Filter tags</span></button>
+      </div>
+      <div id="outlineTree" class="outline-tree"></div>
+      <button class="add-section" id="addChapter">＋ Add chapter</button>
+      <div class="progress-card">
+        <div class="progress-copy"><span>Draft progress</span><strong id="progressPercent">34%</strong></div>
+        <div class="progress-track"><i id="progressBar"></i></div>
+        <p><span id="wordCountSidebar">24,680</span> of 72,000 words</p>
+      </div>
+    </aside>
+
+    <section class="editor-panel">
+      <div class="scene-header">
+        <div class="breadcrumb" id="breadcrumb">ACT I <span>/</span> CHAPTER 2</div>
+        <div class="scene-meta"><span id="sceneWords">846 words</span><button class="more-button">•••</button></div>
+      </div>
+      <input class="scene-title" id="sceneTitle" value="The signal in the fog" aria-label="Scene title">
+      <div class="tag-row" id="activeTags"></div>
+      <div class="format-toolbar" aria-label="Text formatting">
+        <select id="textStyle" aria-label="Text style"><option value="body">Body text</option><option value="heading">Heading</option><option value="quote">Block quote</option><option value="note">Author note</option></select>
+        <span class="divider"></span>
+        <button data-command="bold"><b>B</b></button><button data-command="italic"><i>I</i></button><button data-command="underline"><u>U</u></button>
+        <span class="divider"></span>
+        <button data-command="formatBlock" data-value="blockquote">❞</button><button data-command="insertUnorderedList">≡</button>
+        <span class="toolbar-spacer"></span>
+        <button id="viewSettings" title="View settings">Aa</button>
+      </div>
+      <div class="editor-wrap">
+        <article id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Scene editor"></article>
+      </div>
+      <div class="statusbar"><span id="statusText">Draft · Autosaved just now</span><span>⌘ S to save</span></div>
+    </section>
+
+    <aside class="details-panel">
+      <div class="details-heading"><div><p class="eyebrow">STORY ELEMENTS</p><h2>Scene details</h2></div><button class="icon-button" id="closeDetails">×</button></div>
+      <p class="section-label">IN THIS SCENE</p>
+      <div id="tagLibrary" class="tag-library"></div>
+      <button class="add-tag" id="addTag">＋ Add story element</button>
+      <div class="separator"></div>
+      <label class="field-label" for="sceneSummary">SCENE SUMMARY</label>
+      <textarea id="sceneSummary" rows="4" placeholder="What changes in this scene?">Mara follows an impossible signal through the fog and discovers someone is answering from the abandoned lighthouse.</textarea>
+      <div class="separator"></div>
+      <div class="detail-grid"><div><span>STATUS</span><select id="statusSelect"><option>Draft</option><option>Revised</option><option>Final</option></select></div><div><span>POV</span><select><option>Mara Vale</option><option>Elias North</option></select></div></div>
+      <label class="field-label range-label">TENSION <output id="tensionValue">7</output></label>
+      <input id="tension" type="range" min="1" max="10" value="7">
+      <div class="separator"></div>
+      <label class="field-label">COLOR</label>
+      <div class="color-dots" id="sceneColors"><button class="selected" data-color="#db6b4f" style="--dot:#db6b4f"></button><button data-color="#e3ae47" style="--dot:#e3ae47"></button><button data-color="#6d9c7c" style="--dot:#6d9c7c"></button><button data-color="#6388ad" style="--dot:#6388ad"></button><button data-color="#9274ad" style="--dot:#9274ad"></button></div>
+    </aside>
+  </main>
+
+  <dialog id="exportDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">YOUR MANUSCRIPT</p><h2>Export project</h2><p>Download a clean copy of your current scene.</p><div class="export-options"><button data-export="txt"><strong>TXT</strong><span>Plain manuscript</span></button><button data-export="html"><strong>HTML</strong><span>Styled document</span></button></div></dialog>
+  <dialog id="tagDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">STORY ELEMENT</p><h2>Add a tag</h2><input id="tagName" placeholder="e.g. The silver key"><select id="tagType"><option>Character</option><option>Place</option><option>Object</option><option>Music / sound</option></select><button class="button primary wide" id="confirmTag">Add element</button></dialog>
+  <div class="toast" id="toast">Saved</div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
