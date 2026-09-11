@@ -14,9 +14,10 @@ Open <http://localhost:4173>. Projects autosave to the browser's local storage.
 
 - Nested, collapsible acts, chapters, and scenes
 - Color-coded characters, places, objects, and music/sound tags
-- Rich-text formatting, focus and dark viewing modes
+- Rich-text formatting, find, undo/redo, fullscreen, focus, dark, and extra-dark midnight modes
+- Adjustable typeface, page width, text size, line spacing, typewriter scrolling, and paragraph focus
 - Purpose-built Novel, Screenplay, and Graphic Novel presentations
-- Scene metadata, tension, POV, draft progress, and TXT/HTML export
+- Persistent scene tags and metadata, filtering, tension, POV, draft progress, duplicate/delete, and TXT/HTML export
 
 ## Test
 

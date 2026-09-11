@@ -15,3 +15,20 @@ test('calculates and caps draft progress', () => {
 test('offers all three writing modes', () => {
   assert.deepEqual(Object.keys(modes), ['novel', 'screenplay', 'graphic']);
 });
+
+import { allScenes, initialProject, migrateProject } from '../app.js';
+
+test('flattens the nested manuscript hierarchy', () => {
+  assert.equal(allScenes(initialProject).length, 7);
+});
+
+test('migrates prototype saves and supplies durable scene metadata', () => {
+  const legacy = structuredClone(initialProject);
+  legacy.acts[0].chapters[0].scenes[0] = { id: 'arrival', title: 'Arrival', words: 10, color: '#fff' };
+  legacy.sceneContent = { arrival: '<p>Legacy prose</p>' };
+  const migrated = migrateProject(legacy);
+  const arrival = allScenes(migrated).find(item => item.id === 'arrival');
+  assert.equal(arrival.content, '<p>Legacy prose</p>');
+  assert.deepEqual(arrival.tags, []);
+  assert.equal(arrival.status, 'Draft');
+});
