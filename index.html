@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f1ea" />
+  <title>Novelist — Stories, structured</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" id="projectsButton" aria-label="Open projects"><span class="brand-mark">N</span><span>novelist</span><small>Projects⌄</small></button>
+    <div class="project-title"><span class="save-dot"></span><input id="projectTitle" value="The Last Lighthouse" aria-label="Project title"><span class="saved-label">Saved</span></div>
+    <div class="top-actions">
+      <button class="icon-button" id="themeButton" aria-label="Change color theme" title="Color theme">◐</button>
+      <button class="button secondary" id="topImportButton">Import</button>
+      <button class="button secondary" id="exportButton">Export</button>
+    </div>
+  </header>
+
+  <nav class="modebar" aria-label="Writing mode">
+    <label class="mode-picker"><span>FORMAT</span><select id="modeSelect" aria-label="Writing format"><option value="novel">¶ Novel</option><option value="screenplay">▶ Screenplay</option><option value="graphic">▧ Graphic novel</option></select><small id="modeHint">Prose manuscript</small></label>
+    <div class="view-actions">
+      <button class="icon-button active" data-layout="editor" aria-label="Editor layout">▤</button>
+      <button class="icon-button" id="focusModeButton" data-layout="focus" aria-label="Enter distraction-free focus mode" title="Focus mode">◎</button>
+      <button class="icon-button" id="detailsToggle" aria-label="Toggle scene details" title="Scene details">◫</button>
+    </div>
+  </nav>
+
+  <main class="workspace">
+    <aside class="outline-panel">
+      <div class="panel-heading">
+        <div><p class="eyebrow">MANUSCRIPT</p><h2>Outline</h2></div>
+        <button class="button outline-add" id="outlineAdd" title="Add to outline">＋ Add</button>
+      </div>
+      <div class="outline-tools">
+        <button class="filter-button" id="collapseAll">⇅ <span>Collapse all</span></button>
+        <button class="filter-button" id="tagFilter">◉ <span>Filter tags</span></button>
+      </div>
+      <div id="outlineTree" class="outline-tree"></div>
+      <div class="progress-card">
+        <div class="progress-copy"><span>Draft progress</span><strong id="progressPercent">34%</strong></div>
+        <div class="progress-track"><i id="progressBar"></i></div>
+        <p><span id="wordCountSidebar">24,680</span> of 72,000 words</p>
+      </div>
+    </aside>
+
+    <section class="editor-panel">
+      <div class="scene-header">
+        <div class="breadcrumb" id="breadcrumb">ACT I <span>/</span> CHAPTER 2</div>
+        <div class="scene-meta"><span id="sceneWords">846 words</span><button class="more-button" id="sceneMenuButton" aria-label="Scene actions">•••</button></div>
+      </div>
+      <input class="scene-title" id="sceneTitle" value="The signal in the fog" aria-label="Scene title">
+      <div class="tag-row" id="activeTags"></div>
+      <div class="format-toolbar" aria-label="Text formatting">
+        <select id="textStyle" aria-label="Text style"><option value="body">Body text</option><option value="heading">Heading</option><option value="quote">Block quote</option><option value="note">Author note</option></select>
+        <span class="divider"></span>
+        <button data-command="bold" title="Bold"><b>B</b></button><button data-command="italic" title="Italic"><i>I</i></button><button data-command="underline" title="Underline"><u>U</u></button><button data-command="strikeThrough" title="Strikethrough"><s>S</s></button>
+        <span class="divider"></span>
+        <button data-command="formatBlock" data-value="blockquote" title="Quote">❞</button><button data-command="insertUnorderedList" title="Bulleted list">≡</button><button data-command="insertOrderedList" title="Numbered list">1.</button>
+        <span class="divider"></span>
+        <button data-command="undo" title="Undo">↶</button><button data-command="redo" title="Redo">↷</button><button id="findButton" title="Find in scene">⌕</button>
+        <span class="toolbar-spacer"></span>
+        <label class="view-preset-label">VIEW <select id="viewPreset" aria-label="Writing window style"><option value="draft">Draft</option><option value="book">Book page</option><option value="typewriter">Typewriter</option><option value="proof">Proofreading</option></select></label><button id="viewSettings" title="View settings">Aa</button><button id="fullscreenButton" title="Fullscreen editor">⛶</button>
+      </div>
+      <div class="editor-wrap">
+        <article id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Scene editor"></article>
+      </div>
+      <div class="statusbar"><span id="statusText">Draft · Autosaved just now</span><span>⌘ S to save</span></div>
+    </section>
+
+    <aside class="details-panel">
+      <div class="details-heading"><div><p class="eyebrow">STORY ELEMENTS</p><h2>Scene details</h2></div><button class="icon-button" id="closeDetails">×</button></div>
+      <p class="section-label">IN THIS SCENE</p>
+      <div id="tagLibrary" class="tag-library"></div>
+      <button class="add-tag" id="addTag">＋ Add story element</button>
+      <div class="separator"></div>
+      <label class="field-label" for="sceneSummary">SCENE SUMMARY</label>
+      <textarea id="sceneSummary" rows="4" placeholder="What changes in this scene?"></textarea>
+      <div class="separator"></div>
+      <div class="detail-grid"><div><span>STATUS</span><select id="statusSelect"><option>Idea</option><option>Draft</option><option>Revised</option><option>Final</option></select></div><div><span>POV</span><select id="povSelect"><option>Mara Vale</option><option>Elias North</option><option>Omniscient</option></select></div></div>
+      <label class="field-label range-label">TENSION <output id="tensionValue">7</output></label>
+      <input id="tension" type="range" min="1" max="10" value="7">
+      <div class="separator"></div>
+      <label class="field-label">COLOR</label>
+      <div class="color-dots" id="sceneColors"><button class="selected" data-color="#db6b4f" style="--dot:#db6b4f"></button><button data-color="#e3ae47" style="--dot:#e3ae47"></button><button data-color="#6d9c7c" style="--dot:#6d9c7c"></button><button data-color="#6388ad" style="--dot:#6388ad"></button><button data-color="#9274ad" style="--dot:#9274ad"></button></div>
+    </aside>
+  </main>
+  <button id="exitFocus" class="exit-focus" aria-label="Exit focus mode">Exit focus <kbd>Esc</kbd></button>
+
+  <dialog id="exportDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">SHARE & BACKUP</p><h2>Export</h2><p>Share the current scene or back up the complete editable project.</p><div class="export-options"><button data-export="txt"><strong>TXT</strong><span>Plain scene</span></button><button data-export="html"><strong>HTML</strong><span>Styled scene</span></button><button id="backupProject"><strong>PROJECT</strong><span>Complete JSON backup</span></button></div></dialog>
+  <dialog id="tagDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">STORY ELEMENT</p><h2 id="tagDialogTitle">Add an element</h2><label class="dialog-field">Name<input id="tagName" placeholder="e.g. The silver key"></label><label class="dialog-field">Type<select id="tagType"><option>Character</option><option>Place</option><option>Object</option><option>Music / sound</option></select></label><label class="tag-color-label">Tag color <input id="tagColor" type="color" value="#b35f67"></label><button class="button primary wide" id="confirmTag">Add element</button></dialog>
+  <dialog id="viewDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">READING COMFORT</p><h2>Page appearance</h2><div class="settings-grid"><label>Typeface<select id="fontChoice"><option value="literary">Literary serif</option><option value="sans">Clean sans</option><option value="mono">Monospace</option><option value="dyslexic">Accessible sans</option></select></label><label>Page width<select id="widthChoice"><option value="narrow">Narrow</option><option value="medium" selected>Medium</option><option value="wide">Wide</option></select></label><label>Text size<input id="fontSize" type="range" min="14" max="26" value="18"><output id="fontSizeValue">18px</output></label><label>Line spacing<input id="lineHeight" type="range" min="13" max="24" value="18"><output id="lineHeightValue">1.8</output></label></div><label class="toggle-row"><input id="typewriterToggle" type="checkbox"> Keep the current paragraph centered (typewriter mode)</label><label class="toggle-row"><input id="paragraphFocus" type="checkbox"> Dim paragraphs outside the pointer</label><button class="button secondary wide" id="resetView">Reset appearance</button></dialog>
+  <dialog id="filterDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">OUTLINE FILTER</p><h2>Show scenes tagged with</h2><div id="filterOptions" class="filter-options"></div><button class="button secondary wide" id="clearFilter">Show every scene</button></dialog>
+  <dialog id="sceneDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">SCENE ACTIONS</p><h2>Manage scene</h2><div class="scene-actions"><button id="duplicateScene">Duplicate scene</button><button id="deleteScene" class="danger">Delete scene</button></div></dialog>
+  <dialog id="projectsDialog" class="projects-dialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">LIBRARY</p><h2>Your projects</h2><div id="projectList" class="project-list"></div><div class="project-create"><input id="newProjectName" placeholder="New project title"><button class="button primary" id="createProject">Create</button></div><button class="button secondary wide" id="importProject">Import project file</button><input id="projectFile" type="file" accept="application/json" hidden></dialog>
+  <dialog id="renameDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">OUTLINE</p><h2 id="renameTitle">Rename</h2><label class="dialog-field">Name<input id="renameInput"></label><button class="button primary wide" id="confirmRename">Save name</button></dialog>
+  <dialog id="outlineAddDialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">MANUSCRIPT</p><h2>Add to outline</h2><p id="outlineAddHint">Choose what to add near your current scene.</p><div class="add-choice-grid"><button id="addActChoice"><strong>Act</strong><span>A major story movement</span></button><button id="addChapterChoice"><strong>Chapter</strong><span>Inside the current act</span></button><button id="addSceneChoice"><strong>Scene</strong><span>Inside the current chapter</span></button></div></dialog>
+  <div class="toast" id="toast">Saved</div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
